@@ -1,15 +1,42 @@
 #include <windows.h>
-
+HWND textfield,button;
 /* This is where all the input to the window goes to */
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 	switch(Message) {
-		
+		case WM_CREATE:
+		textfield = CreateWindow("STATIC","Please input two numbers",WS_VISIBLE | WS_CHILD| WS_BORDER ,40,20,170,25,hwnd,NULL,NULL,NULL );
+		button = CreateWindow("BUTTON","+",WS_VISIBLE | WS_CHILD | WS_BORDER ,50,120,25,25,hwnd,(HMENU) 1,NULL,NULL );
+		button = CreateWindow("BUTTON","-",WS_VISIBLE | WS_CHILD | WS_BORDER ,90,120,25,25,hwnd,(HMENU) 2,NULL,NULL );
+		button = CreateWindow("BUTTON","*",WS_VISIBLE | WS_CHILD | WS_BORDER ,130,120,25,25,hwnd,(HMENU) 3,NULL,NULL );
+		button = CreateWindow("BUTTON","/",WS_VISIBLE | WS_CHILD | WS_BORDER ,170,120,25,25,hwnd,(HMENU) 4,NULL,NULL );	
+
+		break;
 		/* Upon destruction, tell the main thread to stop */
-		case WM_DESTROY: {
+		case WM_COMMAND:
+			switch (LOWORD (wParam))
+			{
+				case 1:
+				::MessageBeep(MB_ICONERROR);
+				::MessageBox(hwnd,"ANSWER","Result",MB_OK);
+				break;
+				case 2:
+				::MessageBeep(MB_ICONERROR);
+				::MessageBox(hwnd,"ANSWER2","Result",MB_OK);
+				break;
+				case 3:
+				::MessageBeep(MB_ICONERROR);
+				::MessageBox(hwnd,"ANSWER3","Result",MB_OK);
+				break;
+				case 4:
+				::MessageBeep(MB_ICONERROR);
+				::MessageBox(hwnd,"ANSWER4","Result",MB_OK);
+				break;
+			}
+			break;
+		
+		case WM_DESTROY: 
 			PostQuitMessage(0);
 			break;
-		}
-		
 		/* All other messages (a lot of them) are processed using default procedures */
 		default:
 			return DefWindowProc(hwnd, Message, wParam, lParam);
@@ -41,11 +68,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 0;
 	}
 
-	hwnd = CreateWindowEx(WS_EX_CLIENTEDGE,"WindowClass","Caption",WS_VISIBLE|WS_OVERLAPPEDWINDOW,
+	hwnd = CreateWindowEx(WS_EX_CLIENTEDGE,"WindowClass","My Calculator",WS_VISIBLE|WS_SYSMENU,
 		CW_USEDEFAULT, /* x */
 		CW_USEDEFAULT, /* y */
-		640, /* width */
-		480, /* height */
+		250, /* width */
+		200, /* height */
 		NULL,NULL,hInstance,NULL);
 
 	if(hwnd == NULL) {
