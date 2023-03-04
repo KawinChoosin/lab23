@@ -1,5 +1,6 @@
 #include <windows.h>
-HWND textfield,button;
+HWND textfield,button,Textbox1,Textbox2;
+char number1[10],number2[10],answ[10];
 /* This is where all the input to the window goes to */
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 	switch(Message) {
@@ -9,27 +10,22 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 		button = CreateWindow("BUTTON","-",WS_VISIBLE | WS_CHILD | WS_BORDER ,90,120,25,25,hwnd,(HMENU) 2,NULL,NULL );
 		button = CreateWindow("BUTTON","*",WS_VISIBLE | WS_CHILD | WS_BORDER ,130,120,25,25,hwnd,(HMENU) 3,NULL,NULL );
 		button = CreateWindow("BUTTON","/",WS_VISIBLE | WS_CHILD | WS_BORDER ,170,120,25,25,hwnd,(HMENU) 4,NULL,NULL );	
-
+		Textbox1 = CreateWindow("EDIT","",WS_VISIBLE | WS_CHILD | WS_BORDER ,50,60,160,25,hwnd,NULL,NULL,NULL );
+		Textbox2 = CreateWindow("EDIT","",WS_VISIBLE | WS_CHILD | WS_BORDER ,50,90,160,25,hwnd,NULL,NULL,NULL );
 		break;
+
 		/* Upon destruction, tell the main thread to stop */
 		case WM_COMMAND:
 			switch (LOWORD (wParam))
 			{
 				case 1:
 				::MessageBeep(MB_ICONERROR);
-				::MessageBox(hwnd,"ANSWER","Result",MB_OK);
-				break;
-				case 2:
-				::MessageBeep(MB_ICONERROR);
-				::MessageBox(hwnd,"ANSWER2","Result",MB_OK);
-				break;
-				case 3:
-				::MessageBeep(MB_ICONERROR);
-				::MessageBox(hwnd,"ANSWER3","Result",MB_OK);
-				break;
-				case 4:
-				::MessageBeep(MB_ICONERROR);
-				::MessageBox(hwnd,"ANSWER4","Result",MB_OK);
+				float gwtstat1,gwtstat2,result;
+				gwtstat1 = (GetWindowText(Textbox1,&number1[0],10));
+				gwtstat2 = (GetWindowText(Textbox2,&number2[0],10));
+				result=gwtstat1+gwtstat2;
+				SetWindowText(result,&answ[0],10);
+				::MessageBox(hwnd,answ,"Result",MB_OK);
 				break;
 			}
 			break;
