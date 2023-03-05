@@ -1,4 +1,7 @@
 #include <windows.h>
+#include <stdio.h>
+#include <iostream>
+#include <string>
 HWND textfield,button,Textbox1,Textbox2;
 char number1[10],number2[10],answ[10];
 /* This is where all the input to the window goes to */
@@ -15,21 +18,59 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 		break;
 
 		/* Upon destruction, tell the main thread to stop */
-		case WM_COMMAND:
-			switch (LOWORD (wParam))
-			{
-				case 1:
-				::MessageBeep(MB_ICONERROR);
-				float gwtstat1,gwtstat2,result;
-				gwtstat1 = (GetWindowText(Textbox1,&number1[0],10));
-				gwtstat2 = (GetWindowText(Textbox2,&number2[0],10));
-				result=gwtstat1+gwtstat2;
-				SetWindowText(result,&answ[0],10);
-				::MessageBox(hwnd,answ,"Result",MB_OK);
-				break;
-			}
-			break;
-		
+case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+            case 1:
+                ::MessageBeep(MB_ICONERROR);
+                float num1, num2, result;
+                GetWindowText(Textbox1, number1, 10);
+                GetWindowText(Textbox2, number2, 10);
+                num1 = atof(number1);
+                num2 = atof(number2);
+                result = num1 + num2;
+                sprintf(answ, "%f", result);
+                ::MessageBox(hwnd, answ, "Result", MB_OK);
+                break;
+            case 2:
+                ::MessageBeep(MB_ICONERROR);
+                float num1s, num2s, results;
+                GetWindowText(Textbox1, number1, 10);
+                GetWindowText(Textbox2, number2, 10);
+                num1s = atof(number1);
+                num2s = atof(number2);
+                results = num1s - num2s;
+                sprintf(answ, "%f", results);
+                ::MessageBox(hwnd, answ, "Result", MB_OK);
+                break;
+            case 3:
+                ::MessageBeep(MB_ICONERROR);
+                float num1m, num2m, resultm;
+                GetWindowText(Textbox1, number1, 10);
+                GetWindowText(Textbox2, number2, 10);
+                num1m = atof(number1);
+                num2m = atof(number2);
+                resultm = num1m * num2m;
+                sprintf(answ, "%f", resultm);
+                ::MessageBox(hwnd, answ, "Result", MB_OK);
+                break;
+            case 4:
+                ::MessageBeep(MB_ICONERROR);
+                float num1d, num2d, resultd;
+                GetWindowText(Textbox1, number1, 10);
+                GetWindowText(Textbox2, number2, 10);
+                num1d = atof(number1);
+                num2d = atof(number2);
+                if (num2d != 0) {
+                    resultd = num1d / num2d;
+                    sprintf(answ, "%f", resultd);
+                    ::MessageBox(hwnd, answ, "Result", MB_OK);
+                } else {
+                    ::MessageBox(hwnd, "Division by zero error!", "Error", MB_OK | MB_ICONERROR);
+                }
+                break;
+        }
+        break;
+
 		case WM_DESTROY: 
 			PostQuitMessage(0);
 			break;
@@ -54,7 +95,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	wc.hCursor	 = LoadCursor(NULL, IDC_ARROW);
 	
 	/* White, COLOR_WINDOW is just a #define for a system color, try Ctrl+Clicking it */
-	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
+	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+25);
 	wc.lpszClassName = "WindowClass";
 	wc.hIcon	 = LoadIcon(NULL, IDI_APPLICATION); /* Load a standard icon */
 	wc.hIconSm	 = LoadIcon(NULL, IDI_APPLICATION); /* use the name "A" to use the project icon */
